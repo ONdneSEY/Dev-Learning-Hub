@@ -1,0 +1,781 @@
+{
+  "modules": [
+    {
+      "id": "1",
+      "title": "Модуль 1: Фундамент React та JSX",
+      "description": "Віртуальний DOM, синтаксис JSX, компоненти, пропси, умовний рендеринг та списки."
+    },
+    {
+      "id": "2",
+      "title": "Модуль 2: Хуки та Локальний Стан (React Hooks)",
+      "description": "useState, useEffect, useRef, кастомні хуки та управління локальним станом."
+    },
+    {
+      "id": "3",
+      "title": "Модуль 3: Маршрутизація в SPA (React Router)",
+      "description": "createBrowserRouter, компоненти навігації, динамічні шляхи, useParams та useNavigate."
+    },
+    {
+      "id": "4",
+      "title": "Модуль 4: Серверний стан та API (TanStack Query)",
+      "description": "Server State, useQuery, кешування, select, enabled, мутації та інвалідація кешу."
+    },
+    {
+      "id": "5",
+      "title": "Модуль 5: Форми та Валідація",
+      "description": "Контрольовані компоненти, React Hook Form та Zod валідація."
+    },
+    {
+      "id": "6",
+      "title": "Модуль 6: Глобальний клієнтський стан (Zustand)",
+      "description": "Архітектура глобального стейту, стори, селектори та збереження даних."
+    },
+    {
+      "id": "7",
+      "title": "Модуль 7: Оптимізація продуктивності React",
+      "description": "Аналіз рендерів, React.memo, useMemo, useCallback та Code Splitting."
+    }
+  ],
+  "topics": [
+    {
+      "id": "1",
+      "moduleId": 1,
+      "title": "1.1. Як працює React під капотом",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "Virtual DOM",
+        "Reconciliation",
+        "Architecture"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/render-and-commit",
+      "shortDescription": "Віртуальний DOM, алгоритм порівняння (Diffing) та фази рендерингу.",
+      "simpleExplanation": "React створює у пам'яті легку копію браузерного DOM (Virtual DOM). При зміні стану React створює нове дерево Virtual DOM, порівнює його зі старим (Diffing) і точково оновлює в реальному DOM лише ті вузли, які реально змінилися.",
+      "codeSnippet": "// 1. Trigger (зміна стану) -> 2. Render (виклики компонентів) -> 3. Commit (оновлення DOM)\nconst App = () => {\n  const [count, setCount] = useState(0);\n  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;\n};",
+      "homeworkTask": "Пояснити різницю між фазами Render та Commit у React.",
+      "homeworkSolution": "Render — це фаза обчислень (виклики компонентів і порівняння Virtual DOM без зачіпання екрана). Commit — це фаза безпосереднього оновлення реального DOM у браузері.",
+      "pitfalls": "1. Virtual DOM не робить React 'швидшим за чистий JS', він робить додаток передбачуваним і позбавляє ручних маніпуляцій з DOM.\n2. Дороговартісні обчислення у фазі Render уповільнюють додаток, навіть якщо DOM у результаті не оновиться."
+    },
+    {
+      "id": "2",
+      "moduleId": 1,
+      "title": "1.2. Синтаксис JSX",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "JSX",
+        "Syntax"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/writing-markup-with-jsx",
+      "shortDescription": "Правила написання JSX, вирази у фігурних дужках {}, атрибути та Фрагменти.",
+      "simpleExplanation": "JSX — це синтаксичний цукор над React.createElement(). Він дозволяє писати HTML-подібну розмітку всередині JS. Будь-який дійсний JS-вираз усередині {} обчислюється і виводиться в розмітку.",
+      "codeSnippet": "const title = 'Вітаємо';\nconst Element = () => (\n  <>\n    <h1 className=\"title\">{title.toUpperCase()}</h1>\n    <label htmlFor=\"input-id\">Введіть текст</label>\n  </>\n);",
+      "homeworkTask": "Створити елемент JSX з виводом обчисленого значення та фрагментом.",
+      "homeworkSolution": "const UserInfo = ({ user }) => (\n  <React.Fragment>\n    <h3>{user.name}</h3>\n    <p>Вік: {user.age + 1}</p>\n  </React.Fragment>\n);",
+      "pitfalls": "1. JSX повинен повертати лише ОДИН кореневий елемент (або <></> Fragment).\n2. Атрибути пишуться в camelCase: className замість class, htmlFor замість for, onClick замість onclick.\n3. Об'єкти JS не можна виводити безпосередньо у {} (викличе помилку 'Objects are not valid as a React child')."
+    },
+    {
+      "id": "3",
+      "moduleId": 1,
+      "title": "1.3. Функціональні компоненти",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "Components",
+        "Clean Code"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/your-first-component",
+      "shortDescription": "Структура компонентів, імпорт/експорт та найменування.",
+      "simpleExplanation": "Компонент — це чиста JS-функція, яка приймає пропси та повертає JSX. Вони є цеглинками інтерфейсу додатку.",
+      "codeSnippet": "// Експорт за назвою (Named Export)\nexport const Header = () => {\n  return <header className=\"header\">Logo</header>;\n};\n\n// Дефолтний експорт (Default Export)\nexport default Header;",
+      "homeworkTask": "Створити та імпортувати названий компонент Header у головний файл.",
+      "homeworkSolution": "// Header.tsx\nexport const Header = () => <header>Dev Hub</header>;\n// App.tsx\nimport { Header } from './Header';",
+      "pitfalls": "1. Назва компонента ЗАВЖДИ має починатися з великої літери (Header, а не header), інакше React вважатиме його тегом HTML.\n2. Не оголошуйте один компонент усередині тіла іншого компонента — це викличе повне перестворення компонента та втрату стану на кожен рендер."
+    },
+    {
+      "id": "4",
+      "moduleId": 1,
+      "title": "1.4. Пропси / Props",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "Props",
+        "Data Flow"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/passing-props-to-a-component",
+      "shortDescription": "Передача даних згори донизу (One-way Data Flow) та деструктуризація.",
+      "simpleExplanation": "Пропси — це аргументи, які передаються в компонент від батька. Вони є незмінними (read-only). Дані в React течуть лише в один бік: від батьківського компонента до дочірнього.",
+      "codeSnippet": "interface ButtonProps {\n  title: string;\n  onClick: () => void;\n}\n\nexport const Button = ({ title, onClick }: ButtonProps) => (\n  <button onClick={onClick}>{title}</button>\n);",
+      "homeworkTask": "Описати інтерфейс для картки користувача з пропсами name, age та optional-полем avatar.",
+      "homeworkSolution": "interface CardProps {\n  name: string;\n  age: number;\n  avatar?: string;\n}",
+      "pitfalls": "1. Ніколи не намагайтеся змінювати пропси всередині дочірнього компонента (props.title = 'New').\n2. При передачі чисел або boolean обов'язково загортайте їх у фігурні дужки: count={5}, а не count=\"5\"."
+    },
+    {
+      "id": "5",
+      "moduleId": 1,
+      "title": "1.5. Умовний рендеринг",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "Conditional Rendering",
+        "JSX"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/conditional-rendering",
+      "shortDescription": "Тернарний оператор, && та early return.",
+      "simpleExplanation": "Спосіб показувати чи ховати блоки інтерфейсу залежно від умов (авторизований користувач, йде завантаження, є помилка).",
+      "codeSnippet": "const Content = ({ isLoading, data, isError }: ContentProps) => {\n  if (isLoading) return <p>Завантаження...</p>;\n  if (isError) return <p>Помилка!</p>;\n  return <div>{data && <h1>{data.title}</h1>}</div>;\n};",
+      "homeworkTask": "Написати перевірку для списку: якщо масив порожній — вивести 'Немає даних', інакше показувати масив.",
+      "homeworkSolution": "const List = ({ items }: { items: string[] }) => (\n  <div>{items.length > 0 ? items.map(i => <p key={i}>{i}</p>) : <p>Порожньо</p>}</div>\n);",
+      "pitfalls": "1. Небезпека з &&: якщо умова зліва дорівнює числу 0 (наприклад, items.length && ...), React виведе '0' прямо в розметку! Безпечніше використовувати Boolean(items.length) && ... чи items.length > 0."
+    },
+    {
+      "id": "6",
+      "moduleId": 1,
+      "title": "1.6. Рендеринг списків та атрибут key",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "Lists",
+        "map",
+        "Keys"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/rendering-lists",
+      "shortDescription": "Мапування масивів у JSX та роль унікальних ключів.",
+      "simpleExplanation": "Метод .map() перетворює масив даних у масив елементів JSX. Атрибут key допомагає React точно відстежувати, які елементи змінилися, додалися чи видалилися.",
+      "codeSnippet": "const TopicList = ({ topics }: { topics: Topic[] }) => (\n  <ul>\n    {topics.map((topic) => (\n      <li key={topic.id}>{topic.title}</li>\n    ))}\n  </ul>\n);",
+      "homeworkTask": "Пояснити, чому використання індексу масиву як key є поганою практикою.",
+      "homeworkSolution": "Використання індексу (key={index}) ламає внутрішній стан компонентів при сортуванні, фільтрації або видаленні елементів із середини списку.",
+      "pitfalls": "1. Ключ key має бути унікальним серед сусідніх елементів у межах одного списку.\n2. Не генеруйте key прямо в render під час роботи map (наприклад, key={Math.random()}) — це спричинить повне перестворення елемента при кожному рендері."
+    },
+    {
+      "id": "7",
+      "moduleId": 2,
+      "title": "2.1. Базовий useState",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "Hooks",
+        "useState",
+        "State"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react/useState",
+      "shortDescription": "Управління локальним станом компонента та реактивність.",
+      "simpleExplanation": "useState створює реактивну змінну. Викликаючи функцію-сетер, ми повідомляємо React про зміну даних і викликаємо перерендер компонента.",
+      "codeSnippet": "const [count, setCount] = useState<number>(0);\n\n// Ледаче обчислення початкового стану (Lazy initialization)\nconst [data, setData] = useState(() => calculateHeavyInitialData());",
+      "homeworkTask": "Створити лічильник із кнопками збільшення та зменшення.",
+      "homeworkSolution": "const [count, setCount] = useState(0);\nconst inc = () => setCount(prev => prev + 1);\nconst dec = () => setCount(prev => prev - 1);",
+      "pitfalls": "1. Пряма мутація стану (count = 5) ніколи не оновлює інтерфейс.\n2. Зміна стану асинхронна у межах події: читання значення одразу після виклику сетера поверне СТАРЕ значення."
+    },
+    {
+      "id": "8",
+      "moduleId": 2,
+      "title": "2.2. Робота зі складним станом",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "State",
+        "Immutability",
+        "Objects"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/updating-objects-in-state",
+      "shortDescription": "Імутабельне оновлення об'єктів та масивів у стані.",
+      "simpleExplanation": "Об'єкти та масиви у стейті вважаються незмінними. Щоб змінити значення всередині об'єкта, треба створити новий об'єкт із копією старих полів за допомогою spread-оператора (...).",
+      "codeSnippet": "const [user, setUser] = useState({ name: 'Alex', age: 20 });\n\nconst updateAge = () => {\n  setUser(prev => ({ ...prev, age: prev.age + 1 }));\n};",
+      "homeworkTask": "Додати новий елемент у масив рядків, який зберігається у useState.",
+      "homeworkSolution": "const [list, setList] = useState<string[]>([]);\nconst add = (item: string) => setList(prev => [...prev, item]);",
+      "pitfalls": "1. Застосування методів, що мутують масив (userList.push() чи userList.sort()), зламає реактивність, оскільки посилання на масив у пам'яті не зміниться."
+    },
+    {
+      "id": "9",
+      "moduleId": 2,
+      "title": "2.3. Функціональне оновлення стану",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "State",
+        "Updater Function"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state",
+      "shortDescription": "Колбек-форма сетера стану setCount(prev => prev + 1).",
+      "simpleExplanation": "Якщо нове значення стану залежить від попереднього, завжди передавайте у сетер функцію-колбек (prev => ...). Це гарантує використання найактуальнішого значення навіть при батчингу.",
+      "codeSnippet": "const [count, setCount] = useState(0);\n\nconst addThree = () => {\n  setCount(prev => prev + 1);\n  setCount(prev => prev + 1);\n  setCount(prev => prev + 1);\n};",
+      "homeworkTask": "Пояснити різницю між setCount(count + 1) та setCount(prev => prev + 1).",
+      "homeworkSolution": "setCount(count + 1) тричі поспіль додасть лише +1, бо значення count замикається у рендері. Колбек-форма врахує актуальні значення черги.",
+      "pitfalls": "1. Ігнорування колбек-форми у викликах з асинхронних контекстів (setTimeout, проміси) призведе до втрати змінних через застарілі замикання (stale closures)."
+    },
+    {
+      "id": "10",
+      "moduleId": 2,
+      "title": "2.4. Базовий useEffect",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "useEffect",
+        "Side Effects",
+        "Lifecycle"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react/useEffect",
+      "shortDescription": "Синхронізація з зовнішніми системами та масив залежностей.",
+      "simpleExplanation": "useEffect запускається ПІСЛЯ того, як компонент відрендерився на екрані. Слугує для побічних дій: таймерів, мережевих запитів або підписок.",
+      "codeSnippet": "useEffect(() => {\n  console.log('Виконується після кожного рендеру');\n});\n\nuseEffect(() => {\n  console.log('Виконується лише один раз при монтуванні');\n}, []);\n\nuseEffect(() => {\n  console.log('Виконується при зміні count:', count);\n}, [count]);",
+      "homeworkTask": "Створити useEffect, який виводить у консоль нове значення стану при кожній його зміні.",
+      "homeworkSolution": "useEffect(() => { console.log('Нове значення:', state); }, [state]);",
+      "pitfalls": "1. Зміна стану всередині useEffect без масиву залежностей викличе НЕСКІНЧЕННИЙ ЦИКЛ рендеру.\n2. Не використовуйте useEffect для обчислення даних, які можна порахувати під час рендеру."
+    },
+    {
+      "id": "11",
+      "moduleId": 2,
+      "title": "2.5. Функція очищення / Cleanup",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "useEffect",
+        "Cleanup",
+        "Memory Leak"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react/useEffect#connecting-to-an-external-system",
+      "shortDescription": "Повернення функції очищення для зупинки таймерів та відписки від подій.",
+      "simpleExplanation": "Функція, яку повертає useEffect, викликається ПЕРЕД розмонтуванням компонента або перед повторним запуском цього ж ефекту.",
+      "codeSnippet": "useEffect(() => {\n  const timer = setInterval(() => console.log('Tick'), 1000);\n  \n  // Cleanup function\n  return () => clearInterval(timer);\n}, []);",
+      "homeworkTask": "Написати ефект з підпискою на подію resize вікна браузера та відпискою від неї.",
+      "homeworkSolution": "useEffect(() => {\n  const handle = () => console.log(window.innerWidth);\n  window.addEventListener('resize', handle);\n  return () => window.removeEventListener('resize', handle);\n}, []);",
+      "pitfalls": "1. Забутий cleanup для глобальних подій, WebSocket чи таймерів викликає витік пам'яті (Memory Leak) та спроби оновити розмонтований компонент."
+    },
+    {
+      "id": "12",
+      "moduleId": 2,
+      "title": "2.6. useRef для DOM-елементів",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "useRef",
+        "DOM",
+        "Focus"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react/useRef",
+      "shortDescription": "Пряме посилання на DOM-вузли без перемальовування інтерфейсу.",
+      "simpleExplanation": "useRef створює об'єкт { current: ... }, який зберігається між рендерами. При підключенні до тегу через ref={myRef}, myRef.current дає прямий доступ до DOM-вузла.",
+      "codeSnippet": "const inputRef = useRef<HTMLInputElement>(null);\n\nconst handleFocus = () => {\n  inputRef.current?.focus();\n};\n\nreturn <input ref={inputRef} />;",
+      "homeworkTask": "Створити кнопку, яка прокручує сторінку до конкретного блоку за допомогою useRef.",
+      "homeworkSolution": "const blockRef = useRef<HTMLDivElement>(null);\nconst scroll = () => blockRef.current?.scrollIntoView({ behavior: 'smooth' });",
+      "pitfalls": "1. Зміна myRef.current НЕ ВИКЛИКАЄ перерендер компонента.\n2. Не використовуйте useRef для зміни DOM-структури (наприклад, appendChild) вхідних даних, якими керує React."
+    },
+    {
+      "id": "13",
+      "moduleId": 2,
+      "title": "2.7. useRef для збереження змінних",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "useRef",
+        "State Isolation"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/referencing-values-with-refs",
+      "shortDescription": "Збереження значень між рендерами без виклику перемальовування.",
+      "simpleExplanation": "useRef підходить для збереження 'мутабельних' значень (айдішники таймерів, попередній стан, лічильники) які не впливають безпосередньо на JSX.",
+      "codeSnippet": "const timerId = useRef<number | null>(null);\n\nconst startTimer = () => {\n  timerId.current = window.setInterval(() => {}, 1000);\n};\nconst stopTimer = () => {\n  if (timerId.current) clearInterval(timerId.current);\n};",
+      "homeworkTask": "Зберегти попереднє значення стану у useRef.",
+      "homeworkSolution": "const prevCountRef = useRef(count);\nuseEffect(() => { prevCountRef.current = count; }, [count]);",
+      "pitfalls": "1. Значення myRef.current не можна виводити безпосередньо в JSX, бо його зміна не перемалює інтерфейс."
+    },
+    {
+      "id": "14",
+      "moduleId": 2,
+      "title": "2.8. Створення кастомних хуків",
+      "isCompleted": true,
+      "tags": [
+        "React",
+        "Custom Hooks",
+        "DRY"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/reusing-logic-with-custom-hooks",
+      "shortDescription": "Винесення повторюваної станової логіки у власні функції.",
+      "simpleExplanation": "Кастомний хук — це звичайна JS-функція, назва якої обов'язково починається з 'use', всередині якої викликаються інші хуки React.",
+      "codeSnippet": "export const useToggle = (initialValue = false): [boolean, () => void] => {\n  const [value, setValue] = useState(initialValue);\n  const toggle = () => setValue(prev => !prev);\n  return [value, toggle];\n};",
+      "homeworkTask": "Створити кастомний хук useWindowSize для відстеження ширини вікна.",
+      "homeworkSolution": "export const useWindowSize = () => {\n  const [size, setSize] = useState(window.innerWidth);\n  useEffect(() => {\n    const handle = () => setSize(window.innerWidth);\n    window.addEventListener('resize', handle);\n    return () => window.removeEventListener('resize', handle);\n  }, []);\n  return size;\n};",
+      "pitfalls": "1. Назва обов'язково має починатися з 'use' (наприклад, useFetch), інакше линтер React не зможе перевірити правила виклику хуків."
+    },
+    {
+      "id": "15",
+      "moduleId": 3,
+      "title": "3.1. Налаштування роутера",
+      "isCompleted": true,
+      "tags": [
+        "React Router",
+        "Routing",
+        "SPA"
+      ],
+      "officialDocsUrl": "https://reactrouter.com/en/main/routers/create-browser-router",
+      "shortDescription": "createBrowserRouter та RouterProvider у React Router v6.",
+      "simpleExplanation": "Сучасний підхід у React Router v6 передбачає декларативний опис об'єкта маршрутів через createBrowserRouter та передачу його у RouterProvider.",
+      "codeSnippet": "import { createBrowserRouter, RouterProvider } from 'react-router-dom';\n\nconst router = createBrowserRouter([\n  { path: '/', element: <HomePage /> },\n  { path: '/modules/:moduleId', element: <ModulePage /> }\n]);\n\nexport const App = () => <RouterProvider router={router} />;",
+      "homeworkTask": "Створити конфігурацію роутера для двох сторінок з 404 сторінкою помилки.",
+      "homeworkSolution": "const router = createBrowserRouter([\n  { path: '/', element: <Home /> },\n  { path: '*', element: <NotFound /> }\n]);",
+      "pitfalls": "1. Застарілий підхід з <BrowserRouter><Routes>...</Routes></BrowserRouter> досі зустрічається у стартбуках, але createBrowserRouter є новим стандартом."
+    },
+    {
+      "id": "16",
+      "moduleId": 3,
+      "title": "3.2. Компоненти навігації",
+      "isCompleted": true,
+      "tags": [
+        "React Router",
+        "Link",
+        "NavLink"
+      ],
+      "officialDocsUrl": "https://reactrouter.com/en/main/components/link",
+      "shortDescription": "Використання Link та NavLink замість тегів <a>.",
+      "simpleExplanation": "Link та NavLink змінюють URL браузера клієнтським роутингом без повного перезавантаження сторінки. NavLink додатково дає прапорець isActive.",
+      "codeSnippet": "import { Link, NavLink } from 'react-router-dom';\n\n// Базовий перехід\n<Link to=\"/topics\">Теми</Link>\n\n// Стилізація активної посилання\n<NavLink to=\"/about\" className={({ isActive }) => isActive ? 'active-link' : ''}>\n  Про нас\n</NavLink>",
+      "homeworkTask": "Написати компонент Меню з підсвіткою активної сторінки.",
+      "homeworkSolution": "<NavLink to=\"/home\" style={({ isActive }) => ({ color: isActive ? 'red' : 'black' })}>Home</NavLink>",
+      "pitfalls": "1. Використання стандартного <a href=\"/path\"> перезавантажує додаток і повністю СКИДАЄ увесь клієнтський стан та кеш!"
+    },
+    {
+      "id": "17",
+      "moduleId": 3,
+      "title": "3.3. Динамічні маршрути",
+      "isCompleted": true,
+      "tags": [
+        "React Router",
+        "Params",
+        "Dynamic Paths"
+      ],
+      "officialDocsUrl": "https://reactrouter.com/en/main/route/route",
+      "shortDescription": "Опис параметрів у шляхах через двокрапку (:id).",
+      "simpleExplanation": "Дозволяє один і той самий компонент сторінки використовувати для показу різних об'єктів залежно від значень у посиланні (наприклад, /modules/:moduleId/topics/:topicId).",
+      "codeSnippet": "const router = createBrowserRouter([\n  {\n    path: '/modules/:moduleId/topics/:topicId',\n    element: <TopicPage />\n  }\n]);",
+      "homeworkTask": "Описати конфігурацію роутера з вкладеними параметрами для категорій та товарів.",
+      "homeworkSolution": "{ path: '/catalog/:categoryId/product/:productId', element: <Product /> }",
+      "pitfalls": "1. Переконайтеся, що назви параметрів у двоеточці (:topicId) точно збігаються з назвами під час деструктуризації в useParams()."
+    },
+    {
+      "id": "18",
+      "moduleId": 3,
+      "title": "3.4. Читання параметрів через useParams",
+      "isCompleted": true,
+      "tags": [
+        "React Router",
+        "useParams",
+        "URL Parsing"
+      ],
+      "officialDocsUrl": "https://reactrouter.com/en/main/hooks/use-params",
+      "shortDescription": "Отримання параметрів із URL та їх приведення до типів.",
+      "simpleExplanation": "Хук useParams повертає об'єкт ключ-значення всіх динамічних параметрів поточного активного маршруту.",
+      "codeSnippet": "import { useParams } from 'react-router-dom';\n\nexport const TopicPage = () => {\n  const { moduleId, topicId } = useParams<{\n    moduleId: string;\n    topicId: string;\n  }>();\n\n  const numTopicId = Number(topicId);\n  const numModuleId = Number(moduleId);\n};",
+      "homeworkTask": "Безпечно отримати id з URL та конвертувати його у число.",
+      "homeworkSolution": "const { id } = useParams<{ id: string }>();\nconst numId = id ? Number(id) : undefined;",
+      "pitfalls": "1. Значення з useParams ЗАВЖДИ мають тип string (або undefined). Використання string значення замість number під час строгих порівнянь (===) викличе баги!"
+    },
+    {
+      "id": "19",
+      "moduleId": 3,
+      "title": "3.5. Програмна навігація через useNavigate",
+      "isCompleted": true,
+      "tags": [
+        "React Router",
+        "useNavigate",
+        "Redirect"
+      ],
+      "officialDocsUrl": "https://reactrouter.com/en/main/hooks/use-navigate",
+      "shortDescription": "Програмний перехід між сторінками з коду обробників подій.",
+      "simpleExplanation": "Хук useNavigate повертає функцію, за допомогою якої можна перенаправити користувача на іншу сторінку після сабміту форми чи авторизації.",
+      "codeSnippet": "import { useNavigate } from 'react-router-dom';\n\nexport const Form = () => {\n  const navigate = useNavigate();\n\n  const handleSubmit = () => {\n    // Програмне перенаправлення\n    navigate('/topics');\n    // Або перехід назад у історії: navigate(-1);\n  };\n};",
+      "homeworkTask": "Зробити перенаправлення на сторінку 404 у разі відсутності елемента.",
+      "homeworkSolution": "useEffect(() => { if (!data) navigate('/404'); }, [data]);",
+      "pitfalls": "1. Не викликайте navigate() безпосередньо в тілі компонента під час рендеру. Це слід робити лише в обробниках подій або всередині useEffect."
+    },
+    {
+      "id": "20",
+      "moduleId": 4,
+      "title": "4.1. Концепція Server State",
+      "isCompleted": true,
+      "tags": [
+        "TanStack Query",
+        "Server State",
+        "Architecture"
+      ],
+      "officialDocsUrl": "https://tanstack.com/query/latest/docs/framework/react/overview",
+      "shortDescription": "Чим серверний стан відрізняється від клієнтського.",
+      "simpleExplanation": "Серверний стан (Server State) зберігається на видаленому сервері, є асинхронним, вимагає мережевих запитів і може бути змінений іншими користувачами паралельно. На відміну від UI-стану, його потрібно кешувати та актуалізувати.",
+      "codeSnippet": "// Client State (UI): isOpen, theme, activeTab\n// Server State (Data): users, topicDetails, cartItems",
+      "homeworkTask": "Пояснити різницю між Zustand (Client State) та TanStack Query (Server State).",
+      "homeworkSolution": "Zustand керує виключно синхронним клієнтським UI-станом, а TanStack Query бере на себе кешування, фонові запити та інвалідацію асинхронних даних із сервера.",
+      "pitfalls": "1. Намагання запихати увесь серверний стан у звичайні useState/Redux призводить до колізій і потреби вручну писати велосипед кешування."
+    },
+    {
+      "id": "21",
+      "moduleId": 4,
+      "title": "4.2. Отримання даних через useQuery",
+      "isCompleted": true,
+      "tags": [
+        "TanStack Query",
+        "useQuery",
+        "GET"
+      ],
+      "officialDocsUrl": "https://tanstack.com/query/latest/docs/framework/react/reference/useQuery",
+      "shortDescription": "Хук useQuery: queryKey, queryFn та стани запиту.",
+      "simpleExplanation": "useQuery повертає об'єкт із даними та прапорцями стану (data, isLoading, isError, error, isFetching) на основі унікального масиву-ключа queryKey.",
+      "codeSnippet": "const { data, isLoading, isError } = useQuery({\n  queryKey: ['topics', topicId],\n  queryFn: ({ signal }) => getTopicApi(topicId, signal)\n});",
+      "homeworkTask": "Написати запит за допомогою useQuery з передачею параметра.",
+      "homeworkSolution": "const { data: topics } = useQuery({\n  queryKey: ['topics', moduleId],\n  queryFn: () => fetchTopicsByModule(moduleId)\n});",
+      "pitfalls": "1. Усі динамічні аргументи, що використовуються всередині queryFn, МУСЯТЬ бути вказані у queryKey, інакше кеш не оновиться при їхній зміні!"
+    },
+    {
+      "id": "22",
+      "moduleId": 4,
+      "title": "4.3. Налаштування кешування",
+      "isCompleted": true,
+      "tags": [
+        "TanStack Query",
+        "staleTime",
+        "gcTime",
+        "Cache"
+      ],
+      "officialDocsUrl": "https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults",
+      "shortDescription": "Різниця між staleTime та gcTime (старіння та очищення).",
+      "simpleExplanation": "staleTime означає, як довго дані вважаються 'свіжими' (протягом цього часу нові запити не відправляються). gcTime означає, як довго неактивні дані зберігаються у пам'яті до видалення.",
+      "codeSnippet": "useQuery({\n  queryKey: ['topics'],\n  queryFn: fetchTopics,\n  staleTime: 1000 * 60 * 5, // 5 хвилин дані вважаються свіжими\n  gcTime: 1000 * 60 * 30 // 30 хвилин зберігаються в пам'яті\n});",
+      "homeworkTask": "Пояснити значення за замовчуванням staleTime: 0.",
+      "homeworkSolution": "За замовчуванням staleTime = 0, що означає: дані одразу вважаються застарілими, і при кожному фокусі вікна або повторному мотуванні компонента робиться фоновий рефеч.",
+      "pitfalls": "1. Не плутайте staleTime і gcTime: staleTime керує фоновими перезапитами, а gcTime — очищенням неіснуючих сторінок із пам'яті."
+    },
+    {
+      "id": "23",
+      "moduleId": 4,
+      "title": "4.4. Трансформація даних через select",
+      "isCompleted": true,
+      "tags": [
+        "TanStack Query",
+        "select",
+        "Data Transformation"
+      ],
+      "officialDocsUrl": "https://tanstack.com/query/latest/docs/framework/react/guides/migrating-to-v5#the-select-option",
+      "shortDescription": "Трансформація та фільтрація результатів на рівні хука.",
+      "simpleExplanation": "Опція select приймає функцію, яка перетворює відповідь сервера до потрібного формату. Компонент буде перерендеритися лише тоді, коли зміниться вибрана частина даних.",
+      "codeSnippet": "const { data: completedTopics } = useQuery({\n  queryKey: ['topics'],\n  queryFn: fetchTopics,\n  select: (data) => data.filter(topic => topic.isCompleted)\n});",
+      "homeworkTask": "Використати select для повернення лише першого елемента масиву.",
+      "homeworkSolution": "select: (data) => (Array.isArray(data) ? data[0] : null)",
+      "pitfalls": "1. Переконайтеся, що ваша функція select повертає стабільний тип або захищена від порожніх значень (Array.isArray перевірка)."
+    },
+    {
+      "id": "24",
+      "moduleId": 4,
+      "title": "4.5. Захист запитів через enabled",
+      "isCompleted": true,
+      "tags": [
+        "TanStack Query",
+        "enabled",
+        "Conditional Query"
+      ],
+      "officialDocsUrl": "https://tanstack.com/query/latest/docs/framework/react/guides/disabling-queries",
+      "shortDescription": "Умовне виконання запитів через опцію enabled.",
+      "simpleExplanation": "Запити не виконуються автоматично, якщо enabled дорівнює false. Це корисно для очікування ID від роутера чи вибору користувача.",
+      "codeSnippet": "const { data: topic } = useQuery({\n  queryKey: ['topics', 'detail', topicId],\n  queryFn: () => getTopicApi(topicId),\n  // Запит виконається ТІЛЬКИ якщо topicId є числом і не NaN\n  enabled: Boolean(topicId) && typeof topicId === 'number' && !isNaN(topicId)\n});",
+      "homeworkTask": "Написати умову enabled для запиту, який вимагає наявності userId.",
+      "homeworkSolution": "enabled: Boolean(userId) && userId.length > 0",
+      "pitfalls": "1. Якщо передати у queryFn параметр, який у той момент дорівнює undefined (бо enabled не був налаштований), ви отримаєте помилку 404/500 від бекенду."
+    },
+    {
+      "id": "25",
+      "moduleId": 4,
+      "title": "4.6. Ізоляція ключів кешу / Query Key Namespacing",
+      "isCompleted": true,
+      "tags": [
+        "TanStack Query",
+        "Query Keys",
+        "Namespacing",
+        "Cache Collision"
+      ],
+      "officialDocsUrl": "https://tanstack.com/query/latest/docs/framework/react/guides/query-keys",
+      "shortDescription": "Унікальні простори імен ключів для уникнення колізій кешу.",
+      "simpleExplanation": "Завжди додавайте текстові маркери контексту у масив queryKey (наприклад, 'list' або 'detail'), щоб різні типи запитів з однаковими ID не перезаписували одну й ту ж комірку кешу.",
+      "codeSnippet": "// ❌ КОЛІЗІЯ: обидва запити ділять ['topics', 1]\n// Список модуля №1: queryKey: ['topics', 1]\n// Деталі теми №1: queryKey: ['topics', 1]\n\n// ✅ ПРАВИЛЬНО: чітка ізоляція просторів імен\n// Список модуля: queryKey: ['topics', 'list', moduleId]\n// Деталі теми: queryKey: ['topics', 'detail', topicId]",
+      "homeworkTask": "Створити розділені ключі для запиту списку статей та детальної статті за її slug.",
+      "homeworkSolution": "['articles', 'list', categoryId] та ['articles', 'detail', slug]",
+      "pitfalls": "1. Однакові queryKey призводять до ситуації, коли компонент детальної інформації читає масив зі списком і падає з помилкою!"
+    },
+    {
+      "id": "26",
+      "moduleId": 4,
+      "title": "4.7. Мутації через useMutation",
+      "isCompleted": true,
+      "tags": [
+        "TanStack Query",
+        "useMutation",
+        "PUT/POST"
+      ],
+      "officialDocsUrl": "https://tanstack.com/query/latest/docs/framework/react/reference/useMutation",
+      "shortDescription": "Виконання POST/PUT/DELETE запитів та відстеження їх стану.",
+      "simpleExplanation": "useMutation використовується для модифікації даних на сервері. На відміну від useQuery, мутація викликається вручну методом .mutate(data).",
+      "codeSnippet": "const putTopic = useMutation({\n  mutationFn: (updatedTopic: Topic) => putTopicApi(updatedTopic),\n  onSuccess: () => {\n    console.log('Збережено!');\n  }\n});\n\n// Виклик у коді:\nputTopic.mutate(newTopicData);",
+      "homeworkTask": "Створити мутацію для видалення теми за її ID.",
+      "homeworkSolution": "const deleteMutation = useMutation({\n  mutationFn: (id: number) => deleteTopicApi(id)\n});",
+      "pitfalls": "1. Не викликайте мутацію безпосередньо у виклику onClick={mutate()} без обгортки, якщо аргумент події (Event) випадково передасться як дані на бекенд!"
+    },
+    {
+      "id": "27",
+      "moduleId": 4,
+      "title": "4.8. Інвалідація кешу / invalidateQueries",
+      "isCompleted": true,
+      "tags": [
+        "TanStack Query",
+        "Cache Invalidation",
+        "Reactivity"
+      ],
+      "officialDocsUrl": "https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation",
+      "shortDescription": "Синхронізація клієнтського кешу після успішних мутацій.",
+      "simpleExplanation": "Після збереження даних на сервері викликається queryClient.invalidateQueries({ queryKey }), що робить вказаний кеш неактуальним і змушує TanStack Query перезавантажити свіжі дані.",
+      "codeSnippet": "const queryClient = useQueryClient();\n\nconst putTopic = useMutation({\n  mutationFn: (updatedTopic: Topic) => putTopicApi(updatedTopic),\n  onSuccess: (_, variables) => {\n    // Інвалідуємо і деталі, і весь список тем модуля\n    queryClient.invalidateQueries({ queryKey: ['topics', 'detail', variables.id] });\n    queryClient.invalidateQueries({ queryKey: ['topics', 'list'] });\n  }\n});",
+      "homeworkTask": "Написати інвалідацію для конкретного ключа після оновлення даних.",
+      "homeworkSolution": "queryClient.invalidateQueries({ queryKey: ['topics', 'detail', topicId] });",
+      "pitfalls": "1. Помилка у написанні літери у ключі (наприклад, 'topic' замість 'topics') призведе до того, що інвалідується неіснуючий кеш, а екран не перерендериться!"
+    },
+    {
+      "id": "28",
+      "moduleId": 5,
+      "title": "5.1. Контрольовані компоненти",
+      "isCompleted": false,
+      "tags": [
+        "Forms",
+        "Controlled Components"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react-dom/components/input",
+      "shortDescription": "Зв'язування інпутів зі стейтом через value та onChange.",
+      "simpleExplanation": "Кожне введення символу оновлює локальний useState. Це дає повний контроль над значеннями форми в реальному часі.",
+      "codeSnippet": "<input value={text} onChange={(e) => setText(e.target.value)} />",
+      "homeworkTask": "Створити контрольований інпут для пошуку по назві теми.",
+      "homeworkSolution": "const [search, setSearch] = useState(''); <input value={search} onChange={e => setSearch(e.target.value)} />",
+      "pitfalls": "На великих формах із багатьма полями контрольовані інпути можуть викликати відчутні затримки через постійні рендери всього компонента."
+    },
+    {
+      "id": "29",
+      "moduleId": 5,
+      "title": "5.2. Неконтрольовані компоненти",
+      "isCompleted": false,
+      "tags": [
+        "Forms",
+        "Uncontrolled Components",
+        "useRef"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/referencing-values-with-use-ref",
+      "shortDescription": "Читання значень через useRef у момент сабміту.",
+      "simpleExplanation": "Інпут сам зберігає свій стан у DOM, а ми забираємо його значення за допомогою ref лише тоді, коли користувач натискає кнопку збереження.",
+      "codeSnippet": "const inputRef = useRef(null);\nconst handleSubmit = () => console.log(inputRef.current.value);",
+      "homeworkTask": "Отримати значення текстового поля через неконтрольований підхід при відправці форми.",
+      "homeworkSolution": "const val = myRef.current.value;",
+      "pitfalls": "Неконтрольовані компоненти складніше валідувати «на льоту» під час введення тексту, оскільки ми не відстежуємо кожну зміну в стані."
+    },
+    {
+      "id": "30",
+      "moduleId": 5,
+      "title": "5.3. Бібліотека React Hook Form",
+      "isCompleted": false,
+      "tags": [
+        "React Hook Form",
+        "Forms"
+      ],
+      "officialDocsUrl": "https://react-hook-form.com/",
+      "shortDescription": "Створення ефективних форм з мінімальними ререндерами.",
+      "simpleExplanation": "Професійна бібліотека, яка позбавляє потреби писати купу useState для полів завдяки використанню неконтрольованих інпутів під капотом.",
+      "codeSnippet": "const { register, handleSubmit } = useForm();\n<input {...register('email')} />",
+      "homeworkTask": "Зареєструвати поля форми редагування теми за допомогою методу register.",
+      "homeworkSolution": "<input {...register('title')} />",
+      "pitfalls": "Не забувайте передавати обробник handleSubmit у подію onSubmit самої форми, а не на кнопку."
+    },
+    {
+      "id": "31",
+      "moduleId": 5,
+      "title": "5.4. Валідація через Zod",
+      "isCompleted": false,
+      "tags": [
+        "Zod",
+        "Validation"
+      ],
+      "officialDocsUrl": "https://zod.dev/",
+      "shortDescription": "Створення декларативних схем перевірки даних.",
+      "simpleExplanation": "Zod дозволяє описати, якими мають бути дані (наприклад, рядок, не порожній, мінімум 3 символи), і перевірити їх однією строкою коду.",
+      "codeSnippet": "const schema = z.object({ title: z.string().min(3) });",
+      "homeworkTask": "Створити Zod-схему для валідації полів теми (title та shortDescription).",
+      "homeworkSolution": "const topicSchema = z.object({ title: z.string().min(1, 'Обов'язково') });",
+      "pitfalls": "Завжди перевіряйте типи даних при парсингу через schema.safeParse(), щоб уникнути несподіваних винятків у рантаймі."
+    },
+    {
+      "id": "32",
+      "moduleId": 5,
+      "title": "5.5. Інтеграція Zod з React Hook Form",
+      "isCompleted": false,
+      "tags": [
+        "React Hook Form",
+        "Zod",
+        "Resolver"
+      ],
+      "officialDocsUrl": "https://github.com/react-hook-form/resolvers",
+      "shortDescription": "Підключення валідації Zod до форм через zodResolver.",
+      "simpleExplanation": "Поєднує швидкість React Hook Form із потужною типізацією та перевірками від Zod, автоматично виводячи помилки валідації.",
+      "codeSnippet": "const { register, handleSubmit, formState: { errors } } = useForm({\n  resolver: zodResolver(schema)\n});",
+      "homeworkTask": "Вивести текст помилки валідації під інпутом назви теми з об'єкта errors.",
+      "homeworkSolution": "{errors.title && <span>{errors.title.message}</span>}",
+      "pitfalls": "Переконайтеся, що встановили пакети @hookform/resolvers та zod сумісних версій."
+    },
+    {
+      "id": "33",
+      "moduleId": 6,
+      "title": "6.1. Навіщо потрібен глобальний стейт",
+      "isCompleted": false,
+      "tags": [
+        "Global State",
+        "Prop Drilling"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/passing-data-deeply-with-context",
+      "shortDescription": "Проблема Prop Drilling та межі локального стану.",
+      "simpleExplanation": "Коли дані потрібні і найвищому компоненту, і компоненту на 5 рівнів нижче, прокидати їх через пропси через усі проміжні рівні незручно (Prop Drilling).",
+      "codeSnippet": "// Проблема: <Parent user={user}><Child user={user}><DeepChild user={user} /></Child></Parent>",
+      "homeworkTask": "Описати проблему прокидання пропсів через три і більше компонентів.",
+      "homeworkSolution": "Global State вирішує проблему Prop Drilling, даючи прямий доступ до даних з будь-якого компонента.",
+      "pitfalls": "Не переносимо весь локальний стейт форми в глобальний сховок — глобальним має бути лише те, що потрібно в багатьох різних частинах додатку."
+    },
+    {
+      "id": "34",
+      "moduleId": 6,
+      "title": "6.2. Основи Zustand",
+      "isCompleted": false,
+      "tags": [
+        "Zustand",
+        "Global Store"
+      ],
+      "officialDocsUrl": "https://zustand-demo.pmnd.rs/",
+      "shortDescription": "Створення централізованого сховища без зайвого болерплейту.",
+      "simpleExplanation": "Zustand — це надзвичайно легкий менеджер глобального стану. Ми створюємо стор за допомогою create і можемо читати/змінювати його звідки завгодно.",
+      "codeSnippet": "const useStore = create((set) => ({\n  count: 0,\n  increase: () => set(state => ({ count: state.count + 1 }))\n}));",
+      "homeworkTask": "Створити глобальний стор для збереження поточної теми оформлення (dark/light).",
+      "homeworkSolution": "const useThemeStore = create(set => ({ theme: 'dark', toggle: () => set(state => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })) }));",
+      "pitfalls": "Уникайте прямої мутації стану всередині екшенів Zustand, завжди використовуйте функцію set для повернення нового об'єкта."
+    },
+    {
+      "id": "35",
+      "moduleId": 6,
+      "title": "6.3. Використання селекторів",
+      "isCompleted": false,
+      "tags": [
+        "Zustand",
+        "Selectors",
+        "Optimization"
+      ],
+      "officialDocsUrl": "https://zustand.docs.pmnd.rs/guides/auto-generating-selectors",
+      "shortDescription": "Підписка компонентів лише на потрібні шматочки стану.",
+      "simpleExplanation": "Селектори дозволяють компоненту підписатися лише на конкретну змінну зі стору, запобігаючи зайвим перерендерам при зміні інших даних.",
+      "codeSnippet": "const theme = useThemeStore((state) => state.theme);",
+      "homeworkTask": "Використати селектор для отримання лише екшену перемикання теми без підписки на сам стан.",
+      "homeworkSolution": "const toggle = useThemeStore(state => state.toggle);",
+      "pitfalls": "Виклик useThemeStore() без селектора підписує компонент на весь об'єкт стору, через що він перерендериться при зміні *будь-якого* поля."
+    },
+    {
+      "id": "36",
+      "moduleId": 6,
+      "title": "6.4. Збереження стану (Persist)",
+      "isCompleted": false,
+      "tags": [
+        "Zustand",
+        "Persist",
+        "LocalStorage"
+      ],
+      "officialDocsUrl": "https://zustand.docs.pmnd.rs/integrations/persisting-store-data",
+      "shortDescription": "Автоматичне збереження глобального стану в LocalStorage.",
+      "simpleExplanation": "Спеціальний плагін (persist) для Zustand, який сам записує обрані дані в сховище браузера і відновлює їх при перезавантаженні сторінки.",
+      "codeSnippet": "export const useStore = create(persist((set) => ({ ... }), { name: 'app-storage' }));",
+      "homeworkTask": "Підключити persist middleware до стору теми оформлення, щоб вибір користувача не зникав після оновлення.",
+      "homeworkSolution": "import { persist } from 'zustand/middleware';",
+      "pitfalls": "Будьте обережні з persist при збереженні чутливих даних чи великих об'єктів, оскільки LocalStorage має ліміт об'єму і не є захищеним."
+    },
+    {
+      "id": "37",
+      "moduleId": 7,
+      "title": "7.1. Як працює ререндер у React",
+      "isCompleted": false,
+      "tags": [
+        "Performance",
+        "Rerender",
+        "Profiler"
+      ],
+      "officialDocsUrl": "https://react.dev/learn/render-and-commit",
+      "shortDescription": "Аналіз причин оновлення компонентів через React DevTools.",
+      "simpleExplanation": "Ререндер відбувається тоді, коли змінюється стан або пропси компонента. React DevTools Profiler допомагає побачити, які саме компоненти оновлюються найчастіше.",
+      "codeSnippet": "// Концептуальний аналіз життєвого циклу рендеру та коміту",
+      "homeworkTask": "Відкрити React DevTools Profiler і знайти компонент, що зайво перерендериться.",
+      "homeworkSolution": "Зайві рендери зазвичай спричинені зміною батьківського стану, що тягне за собою всю гілку дочірніх елементів.",
+      "pitfalls": "Не оптимізуйте код «наперед» без вимірювань. Спочатку знайдіть вузьке місце через Profiler, а потім застосовуйте мемоізацію."
+    },
+    {
+      "id": "38",
+      "moduleId": 7,
+      "title": "7.2. Мемоізація компонентів через React.memo",
+      "isCompleted": false,
+      "tags": [
+        "Performance",
+        "React.memo"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react/memo",
+      "shortDescription": "Запобігання рендеру дочірнього компонента зі стабільними пропсами.",
+      "simpleExplanation": "Загортаючи компонент у React.memo, ми кажемо React: 'Не перемальовуй цей компонент, якщо його пропси абсолютно не змінилися'.",
+      "codeSnippet": "const MemoizedChild = React.memo(({ title }) => <h2>{title}</h2>);",
+      "homeworkTask": "Застосувати React.memo для важкого дочірнього елемента списку.",
+      "homeworkSolution": "export const MyComponent = React.memo(ComponentBase);",
+      "pitfalls": "React.memo не допоможе, якщо батько передає у пропси нову анонімну функцію чи об'єкт на кожному рендері (потрібні useCallback та useMemo)."
+    },
+    {
+      "id": "39",
+      "moduleId": 7,
+      "title": "7.3. Мемоізація значень через useMemo",
+      "isCompleted": false,
+      "tags": [
+        "Performance",
+        "useMemo"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react/useMemo",
+      "shortDescription": "Кешування результатів важких обчислень між рендерами.",
+      "simpleExplanation": "useMemo запам'ятовує результат виконання складної функції і не перераховує його заново, допоки не зміняться залежності в масиві.",
+      "codeSnippet": "const sortedList = useMemo(() => heavySort(items), [items]);",
+      "homeworkTask": "Оптимізувати фільтрацію великого масиву даних за допомогою useMemo.",
+      "homeworkSolution": "const filtered = useMemo(() => list.filter(i => i.includes(q)), [list, q]);",
+      "pitfalls": "Не використовуйте useMemo для простих обчислень (наприклад, додавання двох чисел), оскільки витрати на перевірку залежностей перевищать вигоду."
+    },
+    {
+      "id": "40",
+      "moduleId": 7,
+      "title": "7.4. Мемоізація функцій через useCallback",
+      "isCompleted": false,
+      "tags": [
+        "Performance",
+        "useCallback"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react/useCallback",
+      "shortDescription": "Збереження стабільного посилання на функцію.",
+      "simpleExplanation": "useCallback кешує саму функцію, гарантуючи, що її посилання в пам'яті не зміниться при кожному рендері батьківського компонента.",
+      "codeSnippet": "const handleClick = useCallback(() => {\n  console.log(id);\n}, [id]);",
+      "homeworkTask": "Передати мемоізований колбек у дочірній компонент, загорнутий в React.memo.",
+      "homeworkSolution": "const handleAction = useCallback(() => { doSomething(); }, []);",
+      "pitfalls": "useCallback без React.memo на дочірньому компоненті не дає майже ніякого приросту продуктивності і лише додає зайвої складності коду."
+    },
+    {
+      "id": "41",
+      "moduleId": 7,
+      "title": "7.5. Code Splitting та ліниве завантаження",
+      "isCompleted": false,
+      "tags": [
+        "Performance",
+        "React.lazy",
+        "Suspense"
+      ],
+      "officialDocsUrl": "https://react.dev/reference/react/lazy",
+      "shortDescription": "Динамічне завантаження сторінок та компонентів за потребою.",
+      "simpleExplanation": "Дозволяє розбити важкий бандл коду на маленькі частини і завантажувати сторінки лише тоді, коли користувач на них переходить.",
+      "codeSnippet": "const Profile = lazy(() => import('./Profile'));\n\n<Suspense fallback={<Loader />}><Profile /></Suspense>",
+      "homeworkTask": "Налаштувати ліниве завантаження однієї зі сторінок через React.lazy та Suspense.",
+      "homeworkSolution": "const LazyPage = lazy(() => import('./LazyPage'));",
+      "pitfalls": "Не варто ліниво завантажувати абсолютно кожен маленький компонент — це створить занадто багато дрібних мережевих запитів замість одного."
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

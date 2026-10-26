@@ -1,0 +1,15 @@
+header {
+  width: 100%;
+  border-bottom: 3px solid var(--code-bg);
+  margin-bottom: 40px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 50px;
+
+  ul {
+    display: flex;
+    gap: 20px;
+  }
+}

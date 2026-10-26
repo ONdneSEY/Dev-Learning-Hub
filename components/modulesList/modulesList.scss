@@ -1,0 +1,68 @@
+.block {
+  margin: 0;
+  padding: 0;
+  padding-top: 20px;
+  gap: 15px;
+
+  &.row {
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding-bottom: 50px;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .block__box {
+      width: 20%;
+    }
+  }
+
+  &.table {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  &__box {
+    padding: 10px 5px;
+    border: 1px solid #ffffff21;
+    background-color: #ffffff10;
+    border-radius: 10px;
+    transition: 0.2s;
+
+    &:hover {
+      transform: scale(1.03);
+
+      background-color: #ffffff25;
+    }
+
+    &.isActive {
+      transform: scale(1.03);
+
+      background-color: #ffffff30;
+    }
+  }
+
+  &__title {
+    font-size: 16px;
+    color: white;
+    height: 50px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Вкажіть бажану кількість рядків */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  &__description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Вкажіть бажану кількість рядків */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    font-size: 14px;
+  }
+}

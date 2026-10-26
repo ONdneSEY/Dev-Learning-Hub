@@ -1,0 +1,32 @@
+$border_color: gray;
+
+.tablet-topic {
+  margin-top: 40px;
+  border-collapse: collapse; /* Об'єднує рамки та прибирає відступи між комірками */
+  width: 100%;
+  padding: 0;
+
+  thead {
+    td:nth-child(1) {
+      width: 20%;
+    }
+    td:nth-child(2) {
+      width: 8%;
+    }
+  }
+
+  & thead {
+    color: white;
+    font-weight: 800;
+  }
+  & td {
+    height: 60px;
+    border: 3px solid $border_color;
+    p {
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* Вкажіть бажану кількість рядків */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
